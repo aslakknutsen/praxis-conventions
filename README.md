@@ -25,9 +25,9 @@ a project.
 - **Reviewability**: PRs capped at 750 added production
   lines, with required descriptions, conventional
   commits, DCO sign-off, and signed commits
-- **Issue hygiene**: contributors can only self-assign
-  triaged, non-urgent issues; urgent/high-priority and
-  un-triaged work is maintainer-assigned
+- **Issue hygiene**: new issues are flagged for triage,
+  and anyone assigned to an issue that hasn't been
+  triaged yet is unassigned
 - **Everything else**: markdown, TOML, shell, spelling,
   and workflow files are linted too
 
@@ -77,7 +77,7 @@ pinned to a tagged commit of this repository:
 | --- | --- |
 | `pr-conventions.yaml` | `max-additions`, `bypass-teams`, `conventions-doc`, `commit-subject-pattern`, `commit-subject-max-length`, `dco-check`, `dep-version-check` |
 | `pr-housekeeping.yaml` | `stale-draft-days`, `stale-days` |
-| `issue-triage.yaml` | `maintainer-teams`, `priority-field-name`, `blocked-priorities`, `policy-doc` |
+| `issue-triage.yaml` | `policy-doc` |
 | `automated-review.yaml` | `pr_number`, `model`, `prompt-path`, `cloud-ml-region`, `gcp-project-id` |
 | `publish-dry-run.yaml` | `make-args` |
 | `coverage.yaml`, `msrv.yaml`, `mutants.yaml`, `semver.yaml`, `supply-chain.yaml` | none |

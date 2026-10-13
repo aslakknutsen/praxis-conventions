@@ -133,9 +133,6 @@ Every triaged issue should have exactly one priority:
 
 When picking up work, address issues in priority
 order: urgent first, then high, medium, and low.
-Urgent and high-priority work is assigned by a
-maintainer, never self-assigned (see
-[Picking Up Work](#picking-up-work)).
 
 ### Project Boards
 
@@ -148,41 +145,19 @@ been triaged.
 
 ### Picking Up Work
 
-An issue is **triaged** once a maintainer has given it
-a milestone and added it to a project board. Only
-maintainers triage.
+An issue is **triaged** once it has a milestone and is
+on a project board. It takes both: a milestone or a
+board on its own doesn't count.
 
-Maintainers, for this purpose, are members of the teams
-listed in `MAINTAINER_TEAMS` in
-`.github/workflows/issue-triage.yaml`: the same teams
-that bypass the PR size and description checks.
+New issues are labeled `triage/needs-triage`. When an
+issue is given a milestone, the label is swapped for
+`triage/accepted`, which then stays even if the
+milestone is later removed.
 
-New issues are labeled `triage/needs-triage`. When a
-maintainer gives an issue a milestone, the label is
-swapped for `triage/accepted`, which then stays even if
-the milestone is later removed.
-
-Adding a milestone or a project board does not, on its
-own, triage an issue: only a maintainer can, and only by
-doing both.
-
-Contributors may self-assign an issue only when **both**
-of the following hold:
-
-- It is triaged (has a milestone and is on a board).
-- Its priority is `Medium` or `Low`.
-
-Urgent and high-priority issues, and any un-triaged
-issue, must be assigned by a maintainer. If a
-non-maintainer self-assigns or otherwise moves an
-un-triaged issue (adds a milestone or a project board),
-the [issue triage][triage] workflow resets it: it
-removes every assignee, its milestone, and every project
-board, then comments explaining that a maintainer must
-triage the issue before it can be assigned or
-prioritized. For an issue that is already triaged,
-self-assigning urgent or high-priority work is reverted
-the same way. Ask a maintainer to triage or assign it
-instead.
+Issues can only be assigned once they're triaged. If
+someone is assigned to an issue that hasn't been
+triaged yet, the [issue triage][triage] workflow
+unassigns everyone on it and leaves a comment pointing
+here. Ask a maintainer to triage the issue first.
 
 [triage]: ../.github/workflows/issue-triage.yaml
