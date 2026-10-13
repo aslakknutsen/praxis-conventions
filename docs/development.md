@@ -161,3 +161,28 @@ unassigns everyone on it and leaves a comment pointing
 here. Ask a maintainer to triage the issue first.
 
 [triage]: ../.github/workflows/issue-triage.yaml
+
+### Pull Request Assignees
+
+Every pull request gets two assignees once it is ready
+for review: a maintainer from `project-leads` or
+`core-maintainers`, and a reviewer from
+`core-reviewers`. The [PR assignees][assignees]
+workflow assigns them when the PR is opened, reopened,
+or marked ready for review, so drafts wait until they
+are marked ready. Repositories that call the workflow
+pick their own teams with the `maintainer-teams` and
+`reviewer-teams` inputs.
+
+The workflow never picks the PR author, never gives
+both roles to the same person, and goes for whoever is
+assigned to the fewest open PRs, so the review load
+stays spread out. If someone from the right team is
+already assigned, it counts them and only fills the
+role that is missing.
+
+Changing the assignees by hand is fine. The workflow
+never removes anyone, and it only runs again if the PR
+is reopened, or goes back to draft and is marked ready.
+
+[assignees]: ../.github/workflows/pr-assignees.yaml
