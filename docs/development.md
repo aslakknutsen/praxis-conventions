@@ -165,9 +165,8 @@ here. Ask a maintainer to triage the issue first.
 ### Pull Request Assignees
 
 Every pull request gets two assignees once it is ready
-for review: a maintainer from `project-leads` or
-`core-maintainers`, and a reviewer from
-`core-reviewers`. The [PR assignees][assignees]
+for review: a maintainer from `core-maintainers` and
+a reviewer from `core-reviewers`. The [PR assignees][assignees]
 workflow assigns them when the PR is opened, reopened,
 or marked ready for review, so drafts wait until they
 are marked ready. Repositories that call the workflow

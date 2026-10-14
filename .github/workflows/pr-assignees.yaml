@@ -42,7 +42,7 @@ on:
           Comma-separated org team slugs to pick the maintainer from. Every
           slug must be a real team.
         type: string
-        default: project-leads,core-maintainers
+        default: core-maintainers
       reviewer-teams:
         description: >-
           Comma-separated org team slugs to pick the reviewer from. Every slug
@@ -90,10 +90,9 @@ jobs:
           ORG: ${{ github.repository_owner }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          # Comma-separated org team slugs. Project leads count as maintainers
-          # for every repository (see MAINTAINERS.md). Every slug must be a
-          # real team: a lookup that fails stops the run.
-          MAINTAINER_TEAMS: ${{ inputs.maintainer-teams || 'project-leads,core-maintainers' }}
+          # Comma-separated org team slugs. Every slug must be a real team: a
+          # lookup that fails stops the run.
+          MAINTAINER_TEAMS: ${{ inputs.maintainer-teams || 'core-maintainers' }}
           REVIEWER_TEAMS: ${{ inputs.reviewer-teams || 'core-reviewers' }}
         run: |
           set -euo pipefail
