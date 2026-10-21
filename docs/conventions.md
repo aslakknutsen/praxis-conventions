@@ -625,9 +625,15 @@ its code. The gates:
 
 - **Size**: at most 750 added lines of production code.
   `Cargo.toml`/`Cargo.lock`, tests, docs, examples, and
-  benchmarks do not count toward the limit. Split larger
-  changes into a stack of reviewable PRs. Override label:
-  `skip/pr-conventions` (reviewers only).
+  benchmarks do not count toward the limit. PR authors
+  with active membership in the repository's organization
+  skip this check, regardless of role or team membership.
+  The lookup requires the praxis-bot app credentials and
+  organization Members read permission; when credentials
+  are unavailable or membership cannot be confirmed, the
+  check runs normally. Other contributors should split
+  larger changes into a stack of reviewable PRs. Override
+  label: `skip/pr-conventions` (reviewers only).
 - **Description**: every PR must explain what it does and
   why.
 - **Commit format**: subjects follow the conventional

@@ -9,7 +9,7 @@ name: PR Conventions
 #
 # This runs on pull_request, not pull_request_target, so fork and Dependabot
 # PRs get a read-only GITHUB_TOKEN and no Actions secrets. The praxis-bot app
-# token is only needed for the maintainer bypass, so that lookup is skipped
+# token is only needed for membership bypasses, so those lookups are skipped
 # whenever the app credentials aren't available and the checks run as normal.
 # PR comments are best-effort for the same reason: when one can't be posted,
 # the failing check still says what to fix in its error and job summary.
@@ -32,8 +32,8 @@ on:
         default: 750
       bypass-teams:
         description: >-
-          Comma-separated org team slugs whose members skip the size and
-          description checks. Every slug must be a real team in the org.
+          Comma-separated org team slugs whose members skip the description
+          check. Every slug must be a real team in the org.
         type: string
         default: project-leadership,core-maintainers
       conventions-doc:
@@ -62,10 +62,10 @@ on:
         default: true
     secrets:
       PRAXIS_BOT_APP_ID:
-        description: praxis-bot app ID, for the maintainer bypass lookup
+        description: praxis-bot app ID, for organization and team membership lookups
         required: false
       PRAXIS_BOT_APP_PRIVATE_KEY:
-        description: praxis-bot app private key, for the maintainer bypass lookup
+        description: praxis-bot app private key, for organization and team membership lookups
         required: false
 
 concurrency:
@@ -100,33 +100,25 @@ jobs:
           private-key: ${{ secrets.PRAXIS_BOT_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
-      - name: Check maintainer bypass
-        id: maintainer-bypass
+      - name: Check organization member bypass
+        id: org-member-bypass
         if: env.BOT_APP_AVAILABLE == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           ORG: ${{ github.repository_owner }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          BYPASS_TEAMS: ${{ inputs.bypass-teams || 'project-leadership,core-maintainers' }}
         run: |
           set -euo pipefail
           bypass=false
-          IFS=',' read -ra teams <<< "$BYPASS_TEAMS"
-          for team in "${teams[@]}"; do
-            slug="$(echo "$team" | xargs)"
-            [ -z "$slug" ] && continue
-            state="$(gh api "/orgs/${ORG}/teams/${slug}/memberships/${PR_AUTHOR}" \
-              --jq '.state' 2>/dev/null || true)"
-            if [ "$state" = "active" ]; then
-              echo "::notice::${PR_AUTHOR} is on '${slug}'; bypassing size and description checks"
-              bypass=true
-              break
-            fi
-          done
+          if state="$(gh api "/orgs/${ORG}/memberships/${PR_AUTHOR}" \
+              --jq '.state' 2>/dev/null)" && [ "$state" = "active" ]; then
+            echo "::notice::${PR_AUTHOR} is an active member of '${ORG}'; bypassing size check"
+            bypass=true
+          fi
           echo "bypass=${bypass}" >> "$GITHUB_OUTPUT"
 
       - name: Check PR size
-        if: steps.maintainer-bypass.outputs.bypass != 'true'
+        if: steps.org-member-bypass.outputs.bypass != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -462,7 +454,7 @@ jobs:
             state="$(gh api "/orgs/${ORG}/teams/${slug}/memberships/${PR_AUTHOR}" \
               --jq '.state' 2>/dev/null || true)"
             if [ "$state" = "active" ]; then
-              echo "::notice::${PR_AUTHOR} is on '${slug}'; bypassing size and description checks"
+              echo "::notice::${PR_AUTHOR} is on '${slug}'; bypassing description check"
               bypass=true
               break
             fi
