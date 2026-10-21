@@ -93,7 +93,7 @@ jobs:
   coverage:
     permissions:
       contents: read
-    uses: praxis-proxy/conventions/.github/workflows/coverage.yaml@<sha> # v0.3.0
+    uses: praxis-proxy/conventions/.github/workflows/coverage.yaml@<sha> # v0.4.0
 ```
 
 The caller picks the triggers, grants the permissions
