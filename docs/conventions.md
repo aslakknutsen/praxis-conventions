@@ -368,6 +368,36 @@ not at runtime.
   to all config structs unless the struct intentionally
   accepts arbitrary keys.
 
+#### External Integrations and Local Alternatives
+
+When a feature depends on external storage or a service,
+provide a built-in local alternative when practical. A
+local implementation can reduce setup friction for
+development and testing.
+
+Select the implementation through explicit runtime
+configuration. Including an implementation in a build,
+such as through a Cargo feature, makes it available but
+does not select it. Use a local alternative only when
+runtime configuration explicitly chooses it.
+
+When external mode is requested, fail clearly if its
+configuration is missing, incomplete, invalid, or
+unavailable in the build. Also report errors when a
+configured backend or resource reference is unknown, or
+when connecting to or using the external system fails.
+Never switch to a local alternative automatically, even
+with a warning. If local state can satisfy an operation
+in place of the configured external dependency, it is a
+fallback and requires explicit runtime configuration.
+
+This rule does not prohibit ordinary internal caches,
+temporary files, buffers, or bookkeeping that support the
+configured backend while preserving its role. Those
+mechanisms are not substitutes when backend failures
+remain visible and they do not serve as an alternative
+source of truth.
+
 #### Additional Coding Conventions
 
 - Use separator comments to visually separate distinct
